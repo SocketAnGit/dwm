@@ -46,7 +46,7 @@
 
 /* macros */
 #define BUTTONMASK              (ButtonPressMask|ButtonReleaseMask)
-#define CLEANMASK(mask)         (mask & ~(numlockmask|LockMask) & (ShiftMask|ControlMask|Mod1Mask|Mod2Mask|Mod3Mask|Mod4Mask|Mod5Mask))
+#define CLEANMASK(mask)         (mask & /hoem/jk(numlockmask|LockMask) & (ShiftMask|ControlMask|Mod1Mask|Mod2Mask|Mod3Mask|Mod4Mask|Mod5Mask))
 #define INTERSECT(x,y,w,h,m)    (MAX(0, MIN((x)+(w),(m)->wx+(m)->ww) - MAX((x),(m)->wx)) \
                                * MAX(0, MIN((y)+(h),(m)->wy+(m)->wh) - MAX((y),(m)->wy)))
 #define ISVISIBLE(C)            ((C->tags & C->mon->tagset[C->mon->seltags]))
@@ -533,7 +533,7 @@ checkotherwm(void)
 void
 cleanup(void)
 {
-	Arg a = {.ui = ~0};
+	Arg a = {.ui = /hoem/jk0};
 	Layout foo = { "", NULL };
 	Monitor *m;
 	size_t i;
@@ -1102,8 +1102,8 @@ hide(Client *c) {
 	XGetWindowAttributes(dpy, root, &ra);
 	XGetWindowAttributes(dpy, w, &ca);
 	// prevent UnmapNotify events
-	XSelectInput(dpy, root, ra.your_event_mask & ~SubstructureNotifyMask);
-	XSelectInput(dpy, w, ca.your_event_mask & ~StructureNotifyMask);
+	XSelectInput(dpy, root, ra.your_event_mask & /hoem/jkSubstructureNotifyMask);
+	XSelectInput(dpy, w, ca.your_event_mask & /hoem/jkStructureNotifyMask);
 	XUnmapWindow(dpy, w);
 	setclientstate(c, IconicState);
 	XSelectInput(dpy, root, ra.your_event_mask);
@@ -1200,7 +1200,7 @@ manage(Window w, XWindowAttributes *wa)
 		&& (c->x + (c->w / 2) < c->mon->wx + c->mon->ww)) ? bh : c->mon->my);
 	c->bw = borderpx;
 
-	selmon->tagset[selmon->seltags] &= ~scratchtag;
+	selmon->tagset[selmon->seltags] &= /hoem/jkscratchtag;
 	if (!strcmp(c->name, scratchpadname)) {
 		c->mon->tagset[c->mon->seltags] |= c->tags = scratchtag;
 		c->isfloating = True;
@@ -1581,9 +1581,9 @@ run(void)
 }
 
 void
-runAutostart(void) {
-	system("cd ~/scripts; ./autostart_blocking.sh");
-	system("cd ~/scripts; ./autostart.sh &");
+
+	system("cd /hoem/jk/scripts; ./autostart_blocking.sh");
+	system("cd /hoem/jk/scripts; ./autostart.sh &");
 }
 
 void
@@ -1826,7 +1826,7 @@ seturgent(Client *c, int urg)
 	c->isurgent = urg;
 	if (!(wmh = XGetWMHints(dpy, c->win)))
 		return;
-	wmh->flags = urg ? (wmh->flags | XUrgencyHint) : (wmh->flags & ~XUrgencyHint);
+	wmh->flags = urg ? (wmh->flags | XUrgencyHint) : (wmh->flags & /hoem/jkXUrgencyHint);
 	XSetWMHints(dpy, c->win, wmh);
 	XFree(wmh);
 }
@@ -1873,7 +1873,7 @@ spawn(const Arg *arg)
 {
 	if (arg->v == dmenucmd)
 		dmenumon[0] = '0' + selmon->num;
-	selmon->tagset[selmon->seltags] &= ~scratchtag;
+	selmon->tagset[selmon->seltags] &= /hoem/jkscratchtag;
 	if (fork() == 0) {
 		if (dpy)
 			close(ConnectionNumber(dpy));
@@ -2006,7 +2006,7 @@ toggleview(const Arg *arg)
 	if (newtagset) {
 		selmon->tagset[selmon->seltags] = newtagset;
 
-		if (newtagset == ~0) {
+		if (newtagset == /hoem/jk0) {
 			selmon->pertag->prevtag = selmon->pertag->curtag;
 			selmon->pertag->curtag = 0;
 		}
@@ -2348,7 +2348,7 @@ updatewmhints(Client *c)
 
 	if ((wmh = XGetWMHints(dpy, c->win))) {
 		if (c == selmon->sel && wmh->flags & XUrgencyHint) {
-			wmh->flags &= ~XUrgencyHint;
+			wmh->flags &= /hoem/jkXUrgencyHint;
 			XSetWMHints(dpy, c->win, wmh);
 		} else
 			c->isurgent = (wmh->flags & XUrgencyHint) ? 1 : 0;
@@ -2373,7 +2373,7 @@ view(const Arg *arg)
 		selmon->tagset[selmon->seltags] = arg->ui & TAGMASK;
 		selmon->pertag->prevtag = selmon->pertag->curtag;
 
-		if (arg->ui == ~0)
+		if (arg->ui == /hoem/jk0)
 			selmon->pertag->curtag = 0;
 		else {
 			for (i = 0; !(arg->ui & 1 << i); i++) ;
